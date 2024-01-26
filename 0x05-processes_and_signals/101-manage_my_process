@@ -1,4 +1,5 @@
-#!/bin/bash
+#!/usr/bin/env bash
+# 101-manage_my_process
 
 SCRIPT_PATH="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 PID_FILE="/var/run/my_process.pid"
