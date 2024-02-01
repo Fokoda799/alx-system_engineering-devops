@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+# Is the host on the network
+
+for ((i=0; i<5; i++))
+do
+  ping "$1"
+done
