@@ -2,7 +2,14 @@
 #change local host with 127.0.0.2
 #facebook.com change it to 8.8.8.8
 
+if grep -q docker /proc/1/cgroup; then
+    echo "Running inside Docker container."
+else
+    echo "Not running inside Docker container."
+fi
+
+
 cp /etc/hosts ~/hosts.new
 echo -e '172.0.0.2\tlocalhost' > ~/hosts.new
 echo -e '8.8.8.8\tfacebook.com' >> ~/hosts.new
-cp -f ~/hosts.new /etc/hosts
+sudo cp -f ~/hosts.new /etc/hosts
