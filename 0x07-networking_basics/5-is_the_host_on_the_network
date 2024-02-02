@@ -1,7 +1,9 @@
 #!/usr/bin/env bash
 # Is the host on the network
 
-for ((i=0; i<5; i++))
-do
-  ping "$1"
-done
+if [ $# -eq 0 ]; then
+    echo "Usage: $0 {IP_ADDRESS}"
+    exit 1
+fi
+
+ping -c 5 "$1"
