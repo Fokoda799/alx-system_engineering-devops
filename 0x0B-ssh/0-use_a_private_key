@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# Use a private key
 
 private_key="~/.ssh/school"
 server_user="ubuntu"
