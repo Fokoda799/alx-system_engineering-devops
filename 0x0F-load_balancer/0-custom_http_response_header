@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+# Double the number of webservers
+
+# Append this line to the engimx file configuration
+sudo sed -i '/server {/a \ \ \ \     add_header X-Served-By $hostname;' /etc/nginx/sites-available/default
+
+# Restart enginx
+sudo service nginx restart
