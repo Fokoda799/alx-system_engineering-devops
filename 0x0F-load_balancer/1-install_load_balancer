@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+# Install and configure HAproxy in a server
+
+#Update packages
+sudo apt-get update
+
+# Install HAproxy
+sudo apt-get -y install haproxy=2.0.\*
+
+# Configue HAproxy
+path="/etc/haproxy/haproxy.cfg"
+frontend="frontend http\n\tbind *:80\n\tmode http\n\tdefault_backend web"
+servera="server 264821-web-01 34.224.63.208:80 check"
+serverb="server 264821-web-02 100.26.175.90:80 check"
+backend="backend web\n\tbalance ronudrobin\n\t$servera\n\t$serverb"
+
+sudo sed -i "$ a $frontend" $path
+sudo sed -i "$ a $backend" $path
+
+# Restrat HAproxy
+sudo service haproxy restart
