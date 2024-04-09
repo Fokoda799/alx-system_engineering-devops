@@ -4,7 +4,7 @@
 display_info() {
     local subdomain=$1
     local domain=$2
-    local record_type=$(dig "$subdomain.$domain" | awk '/abdellah-hadid.tech./ {print $4}')
+    local record_type=$(dig "$subdomain.$domain" | awk '/abdellah-hadid.tech./ {printf $4}')
     local destination=$(dig +short "$subdomain.$domain")
 
     echo "The subdomain $subdomain is a $record_type record and points to $destination"
