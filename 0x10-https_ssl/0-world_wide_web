@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+# Function to display information about a subdomain
+
+display_info() {
+    local subdomain=$1
+    local domain=$2
+    local record_type=$(dig "$subdomain.$domain" | awk '/abdellah-hadid.tech./ {print $4}')
+    local destination=$(dig +short "$subdomain.$domain")
+
+    echo "The subdomain $subdomain is a $record_type record and points to $destination"
+}
+
+# Main script
+domain="$1"
+subdomain="$2"
+
+if [ -z "$subdomain" ]; then
+    subdomain="www lb-01 web-01 web-02"
+fi
+
+for sub in $subdomain; do
+    display_info "$sub" "$domain"
+done
