@@ -1,11 +1,17 @@
 #!/usr/bin/env bash
 # Run Nginx as Nginx
 
-# Update Nginx configuration to run as nginx user
-sudo sed -i 's/user\s*nginx;/user nginx;/' /etc/nginx/nginx.conf
+# apache currently runs on the port needed :8080
+pkill apache2
 
-# Update Nginx server block to listen on port 8080 for all IPs
-sudo sed -i 's/listen\s*80;/listen 8080;/g' /etc/nginx/sites-available/default
+# make nginx run on all port :8080
+sed -i "s/80/8080/g" /etc/nginx/sites-available/default
 
-# Restart Nginx to apply changes
-sudo service nginx restart
+# change user to nginx in all nginx files
+sudo chown -R nginx:nginx /etc/nginx /var/log/nginx /usr/share/nginx
+
+#give read and write access to the config folder
+chmod 0644 /etc/nginx/nginx.conf
+
+# run nginx as new user
+su nginx -c nginx
