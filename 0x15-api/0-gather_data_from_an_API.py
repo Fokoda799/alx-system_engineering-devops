@@ -1,11 +1,10 @@
 #!/usr/bin/python3
 """Gather data froman API"""
+import json
+import requests
+import sys
 
 if __name__ == "__main__":
-    import requests
-    import sys
-    import json
-
     if len(sys.argv) != 2:
         exit(1)
 
@@ -19,7 +18,7 @@ if __name__ == "__main__":
     todos = todo.json()
 
     em_name = employee["name"]
-    total_tasks = len(todos)
+    tt = len(todos)
     tasks = []
 
     for task in todos:
@@ -27,6 +26,6 @@ if __name__ == "__main__":
             tasks.append(task["title"])
     done_tasks = len(tasks)
 
-    print(f"Employee {em_name} is done with tasks({done_tasks}/{total_tasks}):")
+    print(f"Employee {em_name} is done with tasks({done_tasks}/{tt}):")
     for task in tasks:
-        print(f"\t{task}")
+        print(f"\t {task}")
