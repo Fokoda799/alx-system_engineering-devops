@@ -1,20 +1,40 @@
 #!/usr/bin/python3
-"""prints top 10 posts"""
+
+"""
+queries the Reddit API and returns the titles of a given
+subreddit. If an invalid subreddit is given, the function should return None.
+"""
+
 import requests
-from sys import argv
 
 
-def top_ten(subreddit):
-    """returns the top 10 posts for a given subreddit"""
-    user = {'User-Agent': 'Lizzie'}
-    url = requests.get('https://www.reddit.com/r/{}/hot/.json?limit=10'
-                       .format(subreddit), headers=user).json()
-    try:
-        for post in url.get('data').get('children'):
-            print(post.get('data').get('title'))
-    except Exception:
-        print(None)
+def recurse(subreddit, hot_list=[], after=None):
+    """Recursively queries the Reddit API and returns a list containing
+    the titles of all hot articles for a given subreddit. If no results
+    are found for the given subreddit, the function returns None.
+    """
 
+    url = 'https://www.reddit.com/r/{}/hot.json'.format(subreddit)
 
-if __name__ == "__main__":
-    top_ten(argv[1])
+    headers = {'User-Agent': 'something'}
+
+    params = {'limit': 100}
+
+    if after:  # for pagination
+        params['after'] = after
+
+    response = requests.get(url, headers=headers, params=params)
+
+    if response.status_code != 200:
+        return None
+
+    data = response.json()['data']
+
+    hot_list.extend([post['data']['title'] for post in data['children']])
+
+    after = data['after']
+
+    if after is not None:
+        recurse(subreddit, hot_list, after)
+
+    return hot_list
